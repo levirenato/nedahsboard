@@ -3,6 +3,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
 import datetime as dt
+from datetime import timedelta
 # data links and lists
 data_m_1 = '0&single=true&output=csv'
 data_m_2 = '528635708&single=true&output=csv'
@@ -27,21 +28,28 @@ with st.sidebar:
     
     # date filter
     st.write('Periodo')
+    yesterday = dt.date.today() - timedelta(1)
 
     coldate1,coldate2 = st.columns(2)
+
     with coldate1:
-        de = st.date_input('De',min_value=dt.date(day=1,month=8,year=2022))
+        de = st.date_input('De',value=dt.date(day=1,month=8,year=2022),min_value=dt.date(day=1,month=8,year=2022))
     with coldate2:
-        ate = st.date_input('Até',min_value=dt.date(day=1,month=8,year=2022))
+        ate = st.date_input('Até',value= yesterday ,min_value=dt.date(day=1,month=8,year=2022))
 
     # Filter by Date Index
-    data = original_data.loc[de.strftime("%d/%m/%Y"):ate.strftime("%d/%m/%Y")]
+    try:
+        data = original_data.loc[de.strftime("%d/%m/%Y"):ate.strftime("%d/%m/%Y")]
+    except:
+        st.warning('A data selecionada não é valida, selecione outra')
+        
 
     # Filter the oparator list and add 'all' option
     lista_operador = list(data['Operador'].drop_duplicates())
     lista_operador.insert(0,'Todos')
     filtro = st.selectbox('Operador',lista_operador,index=0)
 
+   
     if filtro == "Todos":
         database = data
     else: database = data.query("Operador == '{}'".format(filtro))
@@ -76,5 +84,16 @@ with st.container():
     # Plot Graph
     fig_week = px.line(database, x=database.index, y=["Inutilizado Sopro","Produção"], title='Produção x Inutilizado',markers=True)
     st.write(fig_week)
+
+    # Graph by Product
+    
+    fig_by_product = go.Figure(data=[
+    go.Histogram(histfunc="sum",name='Produção', x=database['Produto'], y=database['Produção'], texttemplate="%{y}"),
+    go.Histogram(histfunc="sum",name='Inutilizado', x=database['Produto'], y=database['Inutilizado Sopro'], texttemplate="%{y}")
+])
+    fig_by_product.update_layout(barmode='group')
+    st.write(fig_by_product)
+
+
 
     st.write(database)
