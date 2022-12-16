@@ -33,9 +33,9 @@ with st.sidebar:
     coldate1,coldate2 = st.columns(2)
 
     with coldate1:
-        de = st.date_input('De',value=dt.date(day=1,month=8,year=2022),min_value=dt.date(day=1,month=8,year=2022))
+        de = st.date_input('De',value=dt.date(day=1,month=8,year=2022),min_value=dt.date(day=1,month=8,year=2022),max_value=yesterday)
     with coldate2:
-        ate = st.date_input('Até',value= yesterday ,min_value=dt.date(day=1,month=8,year=2022))
+        ate = st.date_input('Até',value= yesterday ,min_value=dt.date(day=1,month=8,year=2022),max_value=yesterday)
 
     # Filter by Date Index
     try:
