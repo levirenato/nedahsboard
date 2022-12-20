@@ -8,7 +8,7 @@ from datetime import timedelta
 data_m_1 = '0&single=true&output=csv'
 data_m_2 = '528635708&single=true&output=csv'
 data_m_3 = '1340796995&single=true&output=csv'
-periodos = [dt.date(2022,12,1),]
+
 
 st.title('DashBoard Sopro')
 # Side bar
@@ -33,7 +33,7 @@ with st.sidebar:
     coldate1,coldate2 = st.columns(2)
 
     with coldate1:
-        de = st.date_input('De',value=dt.date(day=1,month=8,year=2022),min_value=dt.date(day=1,month=8,year=2022),max_value=yesterday)
+        de = st.date_input('De',value=dt.date(day=1,month=12,year=2022),min_value=dt.date(day=1,month=8,year=2022),max_value=yesterday)
     with coldate2:
         ate = st.date_input('Até',value= yesterday ,min_value=dt.date(day=1,month=8,year=2022),max_value=yesterday)
 
