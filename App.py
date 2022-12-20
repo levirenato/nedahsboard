@@ -82,7 +82,7 @@ with st.container():
     st.write(fig)
 
     # Plot Graph
-    fig_week = px.line(database, x=database.index, y=["Inutilizado Sopro","Produção"], title='Produção x Inutilizado',markers=True)
+    fig_week = px.line(database, x=database.index, y=["Inutilizado Sopro","Produção"], title='Produção x Inutilizado')
     st.write(fig_week)
 
     # Graph by Product
